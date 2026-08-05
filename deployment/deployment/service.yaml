@@ -3,8 +3,9 @@ kind: Service
 metadata:
   name: medas-financial-reporting
 spec:
-  selector:
-    app: medas-financial-reporting
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: 8501
+  selector:
+    app: medas-financial-reporting
