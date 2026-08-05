@@ -1,16 +1,22 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: medas-reporting-pipeline
+  name: medas-financial-reporting
 spec:
-  backoffLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: medas-financial-reporting
   template:
+    metadata:
+      labels:
+        app: medas-financial-reporting
     spec:
-      restartPolicy: Never
       containers:
-        - name: reporting
+        - name: medas-financial-reporting
           image: lpanier/visualisation-performances-sportives:latest
-          command: ["uv", "run", "python", "-m", "visualisation_performances_sportives.analyse_sportive.reporting"]
+          ports:
+            - containerPort: 8501
           env:
             - name: AWS_S3_ENDPOINT
               value: "minio-medas-usid0f:9000"
