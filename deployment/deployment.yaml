@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: medas-financial-reporting
-          image: lx-345/visualisation-performances-sportives:latest
+          image: lpanier/visualisation-performances-sportives:latest
           ports:
             - containerPort: 8501
           env:
