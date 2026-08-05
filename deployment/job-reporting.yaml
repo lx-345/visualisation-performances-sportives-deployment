@@ -10,7 +10,7 @@ spec:
       containers:
         - name: reporting
           image: lpanier/visualisation-performances-sportives:latest
-          command: [ "-m", "visualisation_performances_sportives.analyse_sportive.reporting"]
+          command: ["sh", "-c", "uv run python -m visualisation_performances_sportives.analyse_sportive.reporting"]
           env:
             - name: AWS_S3_ENDPOINT
               value: "http://minio-medas-usid0f:9000"
