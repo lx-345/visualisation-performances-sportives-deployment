@@ -6,9 +6,9 @@ spec:
   ingressClassName: onyxia
   tls:
     - hosts:
-        - sports-lx345.lab.sspcloud.fr
+        - user-paleo-sports.user.lab.sspcloud.fr
   rules:
-    - host: sports-lx345.lab.sspcloud.fr
+    - host: user-paleo-sports.user.lab.sspcloud.fr
       http:
         paths:
           - path: /
