@@ -2,11 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: medas-financial-reporting
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - sports-lx345.lab.sspcloud.fr
+        - sports-lx345.lab.sspcloud.fr
   rules:
     - host: sports-lx345.lab.sspcloud.fr
       http:
