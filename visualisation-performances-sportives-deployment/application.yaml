@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: medas-financial-reporting
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/lx-345/visualisation-performances-sportives-deployment.git
+    targetRevision: main
+    path: deployment
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: user-paleo
+  syncPolicy:
+    automated:
+      selfHeal: true
