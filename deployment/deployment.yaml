@@ -20,7 +20,7 @@ spec:
             - containerPort: 8501
           env:
             - name: AWS_S3_ENDPOINT
-              value: "http://minio-medas-usid0f:9000"
+              value: "https://minio.lab.sspcloud.fr"
             - name: S3_BUCKET
               value: "paleo"
             - name: AWS_ACCESS_KEY_ID
