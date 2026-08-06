@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: medas-financial-reporting
+  namespace: user-paleo
 spec:
   replicas: 1
   selector:
@@ -19,9 +20,9 @@ spec:
             - containerPort: 8501
           env:
             - name: AWS_S3_ENDPOINT
-              value: "minio-medas-usid0f:9000"
+              value: "http://minio-medas-usid0f:9000"
             - name: S3_BUCKET
-              value: "medas"
+              value: "paleo"
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -32,3 +33,8 @@ spec:
                 secretKeyRef:
                   name: minio-credentials
                   key: secret-key
+            - name: AWS_SESSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: minio-credentials
+                  key: session-token
