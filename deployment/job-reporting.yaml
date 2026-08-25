@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: medas-reporting-pipeline
+  namespace: user-paleo
 spec:
   schedule: "0 2 * * *"
   concurrencyPolicy: Forbid
@@ -31,8 +32,3 @@ spec:
                     secretKeyRef:
                       name: minio-credentials
                       key: secret-key
-                - name: AWS_SESSION_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: minio-credentials
-                      key: session-token
