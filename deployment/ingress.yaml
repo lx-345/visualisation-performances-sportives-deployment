@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: medas-financial-reporting
+  namespace: user-paleo
 spec:
   ingressClassName: onyxia
   tls:

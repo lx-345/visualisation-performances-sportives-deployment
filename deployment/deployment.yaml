@@ -12,23 +12,13 @@ spec:
     metadata:
       labels:
         app: medas-financial-reporting
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "student"
-        vault.hashicorp.com/agent-inject-secret-s3-creds: "onyxia-kv/paleo/s3-credentials"
-        vault.hashicorp.com/agent-inject-template-s3-creds: |
-          {{- with secret "onyxia-kv/paleo/s3-credentials" -}}
-          export AWS_ACCESS_KEY_ID="{{ .Data.data.AWS_ACCESS_KEY_ID }}"
-          export AWS_SECRET_ACCESS_KEY="{{ .Data.data.AWS_SECRET_ACCESS_KEY }}"
-          {{- end -}}
+      # Les annotations Vault ont été supprimées
     spec:
       containers:
         - name: medas-financial-reporting
           image: lpanier/visualisation-performances-sportives:latest
-          command:
-            - "sh"
-            - "-c"
-            - "source /vault/secrets/s3-creds && uv run streamlit run app.py --server.port=8501 --server.address=0.0.0.0"
+          # Lancement direct sans passer par "sh -c" et "source"
+          command: ["uv", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
           ports:
             - containerPort: 8501
           env:
@@ -36,3 +26,13 @@ spec:
               value: "https://minio.lab.sspcloud.fr"
             - name: S3_BUCKET
               value: "paleo"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: minio-credentials
+                  key: access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-credentials
+                  key: secret-key
