@@ -10,6 +10,9 @@ spec:
     spec:
       backoffLimit: 2
       template:
+        metadata:
+          annotations:
+            vault.hashicorp.com/agent-inject: "false"
         spec:
           restartPolicy: Never
           containers:
