@@ -12,26 +12,31 @@ spec:
       template:
         metadata:
           annotations:
-            vault.hashicorp.com/agent-inject: "false"
+            # 1. Activation de Vault en mode Init (indispensable pour les CronJobs)
+            vault.hashicorp.com/agent-inject: "true"
+            vault.hashicorp.com/agent-init-only: "true"
+            vault.hashicorp.com/role: "student"
+
+            # 2. Injection du secret identique au Deployment
+            vault.hashicorp.com/agent-inject-secret-s3-creds: "onyxia-kv/paleo/s3-credentials"
+            vault.hashicorp.com/agent-inject-template-s3-creds: |
+              {{- with secret "onyxia-kv/paleo/s3-credentials" -}}
+              export AWS_ACCESS_KEY_ID="{{ .Data.data.AWS_ACCESS_KEY_ID }}"
+              export AWS_SECRET_ACCESS_KEY="{{ .Data.data.AWS_SECRET_ACCESS_KEY }}"
+              {{- end -}}
         spec:
           restartPolicy: Never
           containers:
             - name: reporting
               image: lpanier/visualisation-performances-sportives:latest
               imagePullPolicy: Always
-              command: ["sh", "-c", "uv run python -m visualisation_performances_sportives.analyse_sportive.reporting"]
+              # 3. Chargement des clés dynamiques Vault avant le script Python
+              command:
+                - "sh"
+                - "-c"
+                - "source /vault/secrets/s3-creds && uv run python -m visualisation_performances_sportives.analyse_sportive.reporting"
               env:
                 - name: AWS_S3_ENDPOINT
                   value: "https://minio.lab.sspcloud.fr"
                 - name: S3_BUCKET
                   value: "paleo"
-                - name: AWS_ACCESS_KEY_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: minio-credentials
-                      key: access-key
-                - name: AWS_SECRET_ACCESS_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: minio-credentials
-                      key: secret-key
