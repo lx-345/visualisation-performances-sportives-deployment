@@ -15,7 +15,7 @@ spec:
             # 1. Activation de Vault en mode Init (indispensable pour les CronJobs)
             vault.hashicorp.com/agent-inject: "true"
             vault.hashicorp.com/agent-init-only: "true"
-            vault.hashicorp.com/role: "student"
+            vault.hashicorp.com/role: "user-paleo"
 
             # 2. Injection du secret identique au Deployment
             vault.hashicorp.com/agent-inject-secret-s3-creds: "onyxia-kv/paleo/s3-credentials"
