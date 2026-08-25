@@ -14,7 +14,7 @@ spec:
         app: medas-financial-reporting
       annotations:
         vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "user-paleo"
+        vault.hashicorp.com/role: "onyxia"
         vault.hashicorp.com/agent-inject-secret-s3-creds: "onyxia-kv/paleo/s3-credentials"
         vault.hashicorp.com/agent-inject-template-s3-creds: |
           {{- with secret "onyxia-kv/paleo/s3-credentials" -}}
@@ -28,7 +28,7 @@ spec:
           command:
             - "sh"
             - "-c"
-            - "source /vault/secrets/s3-creds && uv run streamlit run <chemin_vers_ton_app_streamlit>.py --server.port=8501 --server.address=0.0.0.0"
+            - "source /vault/secrets/s3-creds && uv run streamlit run app.py --server.port=8501 --server.address=0.0.0.0"
           ports:
             - containerPort: 8501
           env:
